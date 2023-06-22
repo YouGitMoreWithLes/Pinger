@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 using System.Dynamic;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 
 namespace Pinger.Controllers;
@@ -11,9 +13,12 @@ namespace Pinger.Controllers;
 public class PingTestController : ControllerBase
 {
     private readonly ILogger<PingTestController> _logger;
+    private readonly ConfigurationManager _configration;
 
-    public PingTestController(ILogger<PingTestController> logger)
+
+    public PingTestController(ConfigurationManager configration, ILogger<PingTestController> logger)
     {
+        _configration = configration;
         _logger = logger;
     }
 
@@ -195,5 +200,74 @@ public class PingTestController : ControllerBase
         var client = new HttpClient(handler: httpClientHandler, disposeHandler: true);
 
         return client;
+    }
+
+    [HttpGet("CheckDbConnection")]
+    public string CheckDbConnection()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            sb.AppendLine("Starting");
+
+            var conf = _configration["Database:ConnString"];
+            sb.AppendLine(conf);
+
+            using (SqlConnection conn = new SqlConnection(conf))
+            {
+                sb.AppendLine("Opening");
+                conn.Open();
+
+                sb.AppendLine("Closing");
+                conn.Close();
+            }
+
+            sb.AppendLine("Finished");
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError("Ooppss", exception);
+            sb.AppendLine(exception.GetBaseException().Message);
+        }
+
+        return sb.ToString();
+    }
+
+    [HttpGet("TcpConnect")]
+    public string TcpConnect([FromQuery] string host, [FromQuery] string port)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            sb.AppendLine("Starting");
+
+            int iPort = int.Parse(port);
+
+            IPAddress iPAddress = IPAddress.Parse(host);
+            IPEndPoint iPEndpoint = new IPEndPoint(iPAddress, iPort);
+            TcpClient tcpClient = new TcpClient(AddressFamily.InterNetwork);
+
+            tcpClient.ReceiveTimeout = 30;
+            tcpClient.SendTimeout = 30;
+
+            sb.AppendLine("Opening");
+            tcpClient.Connect(iPEndpoint);
+
+            sb.AppendLine($"Connected? {tcpClient.Connected}");
+
+            sb.AppendLine("Closing");
+            tcpClient.Close();
+
+            sb.AppendLine("Finished");
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError("Ooppss", exception);
+            sb.AppendLine(exception.GetBaseException().Message);
+        }
+
+        return sb.ToString();
     }
 }
