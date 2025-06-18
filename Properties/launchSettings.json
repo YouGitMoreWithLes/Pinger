@@ -1,22 +1,12 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "pingtest/CheckDbConnection",
-      "applicationUrl": "http://localhost:5258",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "pingtest/CheckDbConnection",
-      "applicationUrl": "https://localhost:7098;http://localhost:5258",
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:4000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
