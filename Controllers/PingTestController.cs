@@ -244,8 +244,11 @@ public class PingTestController : ControllerBase
             sb.AppendLine("Starting");
 
             int iPort = int.Parse(port);
+            sb.AppendLine($"Host: {host} Port: {iPort}");
 
             IPAddress iPAddress = IPAddress.Parse(host);
+            sb.AppendLine($"IP address: {iPAddress.ToString()}");
+            
             IPEndPoint iPEndpoint = new IPEndPoint(iPAddress, iPort);
             TcpClient tcpClient = new TcpClient(AddressFamily.InterNetwork);
 
@@ -266,6 +269,7 @@ public class PingTestController : ControllerBase
         {
             _logger.LogError("Ooppss", exception);
             sb.AppendLine(exception.GetBaseException().Message);
+            sb.AppendLine(exception.StackTrace);
         }
 
         return sb.ToString();
