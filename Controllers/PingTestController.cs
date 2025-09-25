@@ -249,7 +249,7 @@ public class PingTestController : ControllerBase
             sb.AppendLine("Dns lookup");
             string ipAddressString = System.Net.Dns.GetHostEntry(host).AddressList[0].ToString();
 
-            IPAddress ipAddress = IPAddress.Parse(host);
+            IPAddress ipAddress = IPAddress.Parse(ipAddressString);
             sb.AppendLine($"IP address: {ipAddress.ToString()}");
             
             IPEndPoint iPEndpoint = new IPEndPoint(ipAddress, iPort);
