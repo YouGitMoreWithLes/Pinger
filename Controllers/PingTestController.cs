@@ -246,10 +246,13 @@ public class PingTestController : ControllerBase
             int iPort = int.Parse(port);
             sb.AppendLine($"Host: {host} Port: {iPort}");
 
-            IPAddress iPAddress = IPAddress.Parse(host);
-            sb.AppendLine($"IP address: {iPAddress.ToString()}");
+            sb.AppendLine("Dns lookup");
+            string ipAddressString = System.Net.Dns.GetHostEntry(host).AddressList[0].ToString();
+
+            IPAddress ipAddress = IPAddress.Parse(host);
+            sb.AppendLine($"IP address: {ipAddress.ToString()}");
             
-            IPEndPoint iPEndpoint = new IPEndPoint(iPAddress, iPort);
+            IPEndPoint iPEndpoint = new IPEndPoint(ipAddress, iPort);
             TcpClient tcpClient = new TcpClient(AddressFamily.InterNetwork);
 
             tcpClient.ReceiveTimeout = 30;
