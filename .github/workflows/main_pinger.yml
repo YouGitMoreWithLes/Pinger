@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - Pinger
+name: Build and deploy ASP.Net Core app to Azure Web App - pinger
 
 on:
   push:
@@ -51,15 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EF65957C168A49D89D7516774B520846 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6C2C114684D5459891E894D0EB7B6EBA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_75E730CF7C59403E888367C7EAC82D16 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5A4BDA73FA4948809AA92CEBE2A8064C }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8A7431A1685B4D079AB120EDD584003A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_32ED93455AF243FA82DCDCCA3B7D8B53 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Pinger'
+          app-name: 'pinger'
           slot-name: 'Production'
           package: .
           
