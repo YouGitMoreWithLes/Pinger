@@ -52,4 +52,4 @@ jobs:
           app-name: 'pinger-test-temp'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6D2629077CBE4F3E811968F817E1BF8D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F5C351C32D034656B1B8EBAFBCBCEDE7 }}
